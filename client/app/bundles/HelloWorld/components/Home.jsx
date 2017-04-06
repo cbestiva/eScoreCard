@@ -18,26 +18,31 @@ export default class Home extends React.Component {
     this.state = { user: this.props.user };
   }
 
-  handleHomeView() {
-
-  }
-
   render() {
-    if (this.state.user) {
-      return (
-        <div>
-          <h1>Hello {this.state.user.firstname}</h1>
+    return (
+      <div className='homeWrap'>
+        <div className='welcomeImage row'>
+          <div className='welcomeWrap col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4'>
+            <p className='welcomeText'>
+              Welcome to eScoreCard!<br/>
+              Developed to track and improve your golf game.
+            </p>
+          </div>
         </div>
-      );
-    } else {
-      return (
-        <div> 
-          <h1>
-            Please <a href='/users/sign_in'>login</a> or <a href='/users/sign_up'>sign up</a> to access eScoreCard.
-          </h1>
+
+
+        <div className='row'>
+          <div className='appSpecsWrap col-sm-offset-1 col-sm-10'>
+            <p>Keep track of all your golf scores for all courses played in one place.</p>
+            <ul className='appSpeclist'>
+              <li>See your best scores</li>
+              <li>Check what clubs you used per hole</li>
+              <li>Track your putt counts</li>
+              <li>Compare your socres with friends</li>
+            </ul>
+          </div>
         </div>
-      );
-    }
-    
+      </div>
+    )
   }
 }

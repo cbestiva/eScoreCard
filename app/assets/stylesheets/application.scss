@@ -1,0 +1,57 @@
+// "bootstrap-sprockets" must be imported before "bootstrap" and "bootstrap/variables"
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+
+// Extra small devices (portrait phones, less than 576px)
+// No media query since this is the default in Bootstrap
+.welcomeImage {
+  background: image-url("Golf.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 700px;
+}
+.welcomeWrap {
+  margin-top: 40px;
+  border: 2px solid #284e92;
+  border-radius: 10px;
+  background-color: #ffffff;
+  opacity: .6;
+
+  p {
+    color: #000000;
+  }
+}
+.welcomeText {
+  text-align: center;
+  padding: 15px;
+  margin: 0;
+  font-size: 16px;
+}
+.appSpecsWrap {
+  text-align: center;
+  height: 700px;
+}
+.appSpeclist {
+  list-style: none;
+    padding: 0;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+
+}
