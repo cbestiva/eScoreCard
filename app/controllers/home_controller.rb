@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
-    # @home_props = { name: "Stranger" }
+    @user = current_user
+    @home_props = { user: @user }
   end
 end
