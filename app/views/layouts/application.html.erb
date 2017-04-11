@@ -10,6 +10,30 @@
 
   <body>
     <div class="container-fluid">
+      <div class="row">
+        <div class="logoWrap col-sm-9">
+          <h1><%= link_to(image_tag('Logo.png', class: 'logo'), root_path) %></h1>
+        </div>
+        <div class="menuWrap col-sm-3">
+          <ul class="menu">
+            <% if user_signed_in? %>
+              <li>
+              <%= link_to('Edit account', edit_user_registration_path) %>
+              </li>
+              <li>
+                <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to('Login', new_user_session_path)  %>  
+              </li>
+              <li>
+                <%= link_to('Sign up', new_user_registration_path)  %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
       <%= yield %>
     </div>
   </body>

@@ -7,6 +7,20 @@
 // No media query since this is the default in Bootstrap
 .logo {
   height: 50px;
+  display: inline-block;
+}
+.menuWrap {
+  text-align: right;
+}
+ul.menu {
+  list-style: none; 
+  margin: 30px 0;
+  padding: 0;
+  display: inline-block;
+}
+ul.menu li {
+  display: inline;
+  margin-right: 10px;
 }
 .welcomeImageRow {
   background: image-url("Golf.jpg");
