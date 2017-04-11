@@ -7,4 +7,9 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :firstname, :lastname])
   end
+
+  # redirect to user profile page on successful sign in
+  def after_sign_in_path_for(resource)
+    current_user_path_url(resource)
+  end
 end
