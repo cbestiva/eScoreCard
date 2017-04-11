@@ -6,6 +6,7 @@ const webpack = require('webpack');
 const pathLib = require('path');
 
 const devBuild = process.env.NODE_ENV !== 'production';
+const nodeEnv = devBuild ? 'development' : 'production';
 
 const config = {
   entry: [
@@ -22,6 +23,11 @@ const config = {
 
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      assets: pathLib.resolve('./app/assets'), // Makes it easier to reference our assets in jsx files
+      react: pathLib.resolve('./node_modules/react'),
+      'react-dom': pathLib.resolve('./node_modules/react-dom'),
+    },
   },
   plugins: [
     new webpack.EnvironmentPlugin({ NODE_ENV: 'development' }),
@@ -43,6 +49,17 @@ const config = {
         use: 'babel-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.(jpg|jpeg|png)(\?.*)?$/, // Load only .jpg .jpeg, and .png files
+        use: {
+          loader: 'file-loader', 
+          options: {
+            name: '[name][md5:hash].[ext]', // Name of bundled asset
+            outputPath: 'webpack-assets/', // Output location for assets. Final: `app/assets/webpack/webpack-assets/`
+            publicPath: '/assets/' // Endpoint asset can be found at on Rails server
+          }
+        }
+      }
     ],
   },
 };

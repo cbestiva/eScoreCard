@@ -5,7 +5,10 @@
 
 // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
-.welcomeImage {
+.logo {
+  height: 50px;
+}
+.welcomeImageRow {
   background: image-url("Golf.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -28,13 +31,81 @@
   margin: 0;
   font-size: 16px;
 }
+.appSpecsRow {
+  background-color: #71abbd;
+}
 .appSpecsWrap {
   text-align: center;
   height: 700px;
+  margin-top: 50px;
+
+  p {
+    font-size: 16px;
+  }
 }
 .appSpeclist {
   list-style: none;
     padding: 0;
+}
+.clubsIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px; /*to align vertically*/
+  display: inline-block;
+  overflow: hidden;
+  background: image-url("golf_sprite.png");
+  background-repeat: no-repeat;
+  background-position: 10px 0px;
+  right: 40px;
+}
+.puttIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px; /*to align vertically*/
+  display: inline-block;
+  overflow: hidden;
+  background: image-url("golf_sprite.png");
+  background-repeat: no-repeat;
+  background-position: -90px 0px;
+  left: 75px;
+}
+.calculatorIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px; /*to align vertically*/
+  display: inline-block;
+  overflow: hidden;
+  background: image-url("golf_sprite.png");
+  background-repeat: no-repeat;
+  background-position: -195px 0px;
+  right: 45px;
+}
+.scoresIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px; /*to align vertically*/
+  display: inline-block;
+  overflow: hidden;
+  background: image-url("golf_sprite.png");
+  background-repeat: no-repeat;
+  background-position: -300px 0px;
+  left: 75px;
+}
+.friendsIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px; /*to align vertically*/
+  display: inline-block;
+  overflow: hidden;
+  background: image-url("golf_sprite.png");
+  background-repeat: no-repeat;
+  background-position: -410px 0px;
+  right: 45px;
 }
 
 // Small devices (landscape phones, 576px and up)
