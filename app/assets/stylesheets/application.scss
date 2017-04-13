@@ -5,6 +5,7 @@
 
 // Extra small devices (portrait phones, less than 576px)
 // No media query since this is the default in Bootstrap
+/*Main Menu Styles*/
 .logo {
   height: 50px;
   display: inline-block;
@@ -22,6 +23,8 @@ ul.menu li {
   display: inline;
   margin-right: 10px;
 }
+
+/* Home Page Styles*/
 .welcomeImageRow {
   background: image-url("Golf.jpg");
   background-repeat: no-repeat;
@@ -122,18 +125,63 @@ ul.menu li {
   right: 45px;
 }
 
+/*Profile Page Styles*/
+/*** Course Form Component ***/
+.courseFormHeader {
+  text-align: center;
+}
+.input-course {
+  margin: 10px 5px;
+}
+.input-course-city {
+  width: 50%;
+  display: inline-block;
+  float: left;
+}
+.select-course-state {
+  width: 25%;
+  display: inline-block;
+}
+.select-course-holes {
+  width: 20%;
+  display: inline-block;
+}
+.button-submit-course {
+  width: 100%;
+}
+
 // Small devices (landscape phones, 576px and up)
 @media (min-width: 576px) {
 }
 
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) {
-  
+ 
 }
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {
-
+  /*Profile Page Styles*/
+  /*** Course Form Component ***/
+ /* .input-course-name {
+    width: 50%;
+  }
+  .input-course-city {
+    width: 30%;
+    display: inline-block;
+    float: left;
+  }
+  .input-course-state {
+    width: 10%;
+    display: inline-block;
+  }
+  .select-course-holes {
+    width: 8%;
+    display: inline-block;
+  }
+  .courseButtonWrap {
+    width: 50%;
+  }*/
 }
 
 // Extra large devices (large desktops, 1200px and up)
