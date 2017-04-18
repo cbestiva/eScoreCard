@@ -1,0 +1,106 @@
+/*path is relative to this file!*/
+$image-url-path: '../../../../assets/images';
+
+/*Home Page Styles*/
+/*** Welcome Banner Section Styles ***/
+.welcomeImageRow {
+  background-image: url('#{$image-url-path}/golf.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 700px;
+}
+.welcomeWrap {
+  margin-top: 40px;
+  border: 2px solid #284e92;
+  border-radius: 10px;
+  background-color: #ffffff;
+  opacity: .6;
+
+  p {
+    color: #000000;
+  }
+}
+.welcomeText {
+  text-align: center;
+  padding: 15px;
+  margin: 0;
+  font-size: 16px;
+}
+
+/*** Features Section Styles ***/
+.appSpecsRow {
+  background-color: #71abbd;
+}
+.appSpecsWrap {
+  text-align: center;
+  height: 700px;
+  margin-top: 50px;
+
+  p {
+    font-size: 16px;
+  }
+}
+.appSpeclist {
+  list-style: none;
+    padding: 0;
+}
+.clubsIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: url('#{$image-url-path}/golf-sprite.png');
+  background-repeat: no-repeat;
+  background-position: 10px 0px;
+  right: 40px;
+}
+.puttIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: url("#{$image-url-path}/golf-sprite.png");
+  background-repeat: no-repeat;
+  background-position: -90px 0px;
+  left: 75px;
+}
+.calculatorIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: url("#{$image-url-path}/golf-sprite.png");
+  background-repeat: no-repeat;
+  background-position: -195px 0px;
+  right: 45px;
+}
+.scoresIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: url("#{$image-url-path}/golf-sprite.png");
+  background-repeat: no-repeat;
+  background-position: -300px 0px;
+  left: 75px;
+}
+.friendsIcon {
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 40px;
+  display: inline-block;
+  overflow: hidden;
+  background-image: url("#{$image-url-path}/golf-sprite.png");
+  background-repeat: no-repeat;
+  background-position: -410px 0px;
+  right: 45px;
+}

@@ -1,0 +1,29 @@
+/*Profile Page Styles*/
+/*** Course Form Component ***/
+.welcomeHeadline {
+  font-size: 30px;
+}
+.courseFormHeader {
+  text-align: center;
+  font-size: 25px;
+}
+.inputCourse {
+  margin: 10px 0;
+}
+.inputCourseCity {
+  width: 50%;
+  display: inline-block;
+  float: left;
+}
+.selectCourseState {
+  margin: 10px;
+  width: 25%;
+  display: inline-block;
+}
+.selectCourseHoles {
+  width: 20%;
+  display: inline-block;
+}
+.buttonSubmitCourse {
+  width: 100%;
+}
