@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import NavBar from '../NavBar/NavBar';
-import css from './NewCourseForm.scss'
+import css from './Application.scss'
 
 export default class NewCourseForm extends React.Component {
   static propTypes = {

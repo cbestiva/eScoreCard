@@ -1,11 +1,11 @@
 import ReactOnRails from 'react-on-rails';
 
 import Splash from '../components/Splash/Splash';
-import NewCourseForm from '../components/NewCourseForm/NewCourseForm';
+import Application from '../components/Application/Application';
 import NavBar from '../components/NavBar/NavBar'
 
 ReactOnRails.register({
   Splash,
-  NavBar,
-  NewCourseForm
+  Application,
+  NavBar
 });

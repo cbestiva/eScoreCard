@@ -15,6 +15,10 @@ export default class NavBar extends React.Component {
     this.state = { user: this.props.user };
   }
 
+  componentDidMount() {
+    console.log(this.state.user);
+  }
+
   handleLogoLink() {
     if (this.state.user == null) {
       return (
@@ -25,7 +29,7 @@ export default class NavBar extends React.Component {
     } else {
       return (
         <h1>
-          <a href='/users/show/:id'><img src={logoImg} className={css.logo}/></a>
+          <a href={`/users/show/${this.state.user.id}`}><img src={logoImg} className={css.logo}/></a>
         </h1>
       )
     }
