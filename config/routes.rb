@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'home', to: 'home#index'
   get 'users', to: 'users#index', as: 'user_root' #creates users root path
   get 'users/show/:id', to: 'users#show', as: 'current_user_path' #creates user profile path
+  post 'users/show/:id', to: 'users#create'
+  resources 'score_cards'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
