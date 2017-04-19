@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import NavBar from '../NavBar/NavBar';
-import css from './Home.scss'
+import css from './Splash.scss'
 
-export default class Home extends React.Component {
+export default class Splash extends React.Component {
 
   /**
    * @param props - Comes from your rails view.
