@@ -15,10 +15,6 @@ export default class NavBar extends React.Component {
     this.state = { user: this.props.user };
   }
 
-  componentDidMount() {
-    console.log(this.state.user);
-  }
-
   handleLogoLink() {
     if (this.state.user == null) {
       return (
