@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import NavBar from '../NavBar/NavBar';
 import ScoreCardForm from '../ScoreCardForm/ScoreCardForm'
+import ScoreCard from '../ScoreCard/ScoreCard'
 import css from './Application.scss'
 
 export default class Application extends React.Component {
@@ -8,7 +9,8 @@ export default class Application extends React.Component {
     user: PropTypes.object.isRequired, // this is passed from the Rails view
     scoreCards: PropTypes.array.isRequired,
     scoreCard: PropTypes.object.isRequired,
-    showForm: PropTypes.bool.isRequired
+    showForm: PropTypes.bool.isRequired,
+    showCard: PropTypes.bool.isRequired
   };
 
   /**
@@ -24,14 +26,14 @@ export default class Application extends React.Component {
       user: this.props.user,
       scoreCards: this.props.scoreCards,
       scoreCard: this.props.scoreCard,
-      showForm: this.props.showForm
+      showForm: this.props.showForm,
+      showCard: this.props.showCard
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount() {
     console.log(this.state.scoreCards)
-    console.log(this.state.scoreCard)
   }
 
   // Function passed to ScoreCardForm child component 
@@ -39,6 +41,7 @@ export default class Application extends React.Component {
     e.preventDefault();
     let scoreCards = this.state.scoreCards;
     let showForm = this.state.showForm;
+    let showCard = this.state.showCard;
     $.ajax({
       headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
       type:'POST',
@@ -52,7 +55,10 @@ export default class Application extends React.Component {
       }
     },
       // After ajax set showForm state to false 
-      this.setState({ showForm: !showForm })
+      this.setState({
+        showForm: !showForm,
+        showCard: !showCard
+      })
     );
   }
 
@@ -66,7 +72,7 @@ export default class Application extends React.Component {
         </h1>
 
         {this.state.showForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards} scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        
+        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard}/> : null}
       </div>
     )
   }
