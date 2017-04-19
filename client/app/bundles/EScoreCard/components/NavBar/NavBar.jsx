@@ -15,8 +15,24 @@ export default class NavBar extends React.Component {
     this.state = { user: this.props.user };
   }
 
+  handleLogoLink() {
+    if (this.state.user == null) {
+      return (
+        <h1>
+          <a href='/'><img src={logoImg} className={css.logo}/></a>
+        </h1>
+      )
+    } else {
+      return (
+        <h1>
+          <a href='/users/show/:id'><img src={logoImg} className={css.logo}/></a>
+        </h1>
+      )
+    }
+  }
+
   renderLinks() {
-    if (this.props.user == null) {
+    if (this.state.user == null) {
       return (
         <div className={`${css.menuWrap} col-sm-3`}>
           <ul className={css.menu}>
@@ -41,7 +57,7 @@ export default class NavBar extends React.Component {
     return (
       <div className='row'>
         <div className={`${css.logoWrap} col-sm-9`}>
-          <h1><a href='/'><img src={logoImg} className={css.logo}/></a></h1>
+          {this.handleLogoLink()}
         </div>
         
         {this.renderLinks()}
