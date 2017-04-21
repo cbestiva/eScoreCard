@@ -10,7 +10,8 @@ export default class Application extends React.Component {
     scoreCards: PropTypes.array.isRequired,
     scoreCard: PropTypes.object.isRequired,
     showForm: PropTypes.bool.isRequired,
-    showCard: PropTypes.bool.isRequired
+    showCard: PropTypes.bool.isRequired,
+    increment: PropTypes.number.isRequired
   };
 
   /**
@@ -27,7 +28,8 @@ export default class Application extends React.Component {
       scoreCards: this.props.scoreCards,
       scoreCard: this.props.scoreCard,
       showForm: this.props.showForm,
-      showCard: this.props.showCard
+      showCard: this.props.showCard,
+      increment: this.props.increment
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -72,7 +74,7 @@ export default class Application extends React.Component {
         </h1>
 
         {this.state.showForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards} scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard}/> : null}
+        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}/> : null}
       </div>
     )
   }
