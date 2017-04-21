@@ -9,6 +9,8 @@ class UsersController < ApplicationController
       num_of_holes: '',
       user_id: @user.id
     }
+    @totalPar = 0;
+    @totalScore = 0;
 
     respond_to do |f|
       f.html

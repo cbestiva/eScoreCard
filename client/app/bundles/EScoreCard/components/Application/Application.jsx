@@ -11,7 +11,9 @@ export default class Application extends React.Component {
     scoreCard: PropTypes.object.isRequired,
     showForm: PropTypes.bool.isRequired,
     showCard: PropTypes.bool.isRequired,
-    increment: PropTypes.number.isRequired
+    increment: PropTypes.number.isRequired,
+    totalPar: PropTypes.number.isRequired,
+    totalScore: PropTypes.number.isRequired
   };
 
   /**
@@ -29,13 +31,11 @@ export default class Application extends React.Component {
       scoreCard: this.props.scoreCard,
       showForm: this.props.showForm,
       showCard: this.props.showCard,
-      increment: this.props.increment
+      increment: this.props.increment,
+      totalPar: this.props.totalPar,
+      totalScore: this.props.totalScore
     }
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    console.log(this.state.scoreCards)
   }
 
   // Function passed to ScoreCardForm child component 
@@ -73,8 +73,10 @@ export default class Application extends React.Component {
           Welcome, {this.state.user.firstname}. Playing a round of golf? 
         </h1>
 
-        {this.state.showForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards} scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}/> : null}
+        {this.state.showForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
+          scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
+        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}
+          totalPar={this.props.totalPar} totalScore={this.props.totalScore}/> : null}
       </div>
     )
   }
