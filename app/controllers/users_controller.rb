@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def show
     @user = current_user
-    @scoreCards = current_user.score_cards.all
+    @scoreCards = current_user.score_cards.all.order('created_at DESC');
     @scoreCard = {
       course_name: '',
       city: '',

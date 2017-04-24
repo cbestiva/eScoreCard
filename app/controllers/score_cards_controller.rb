@@ -8,6 +8,14 @@ class ScoreCardsController < ApplicationController
     end
   end
 
+  def show
+    @score_card = ScoreCard.find(params[:id])
+
+    respond_to do |f|
+    f.json {render json: @score_card}
+    end
+  end
+
   private
     # Using a private method to encapsulate the permissible parameters
     # is just a good pattern since you'll be able to reuse the same

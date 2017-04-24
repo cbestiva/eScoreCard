@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import NavBar from '../NavBar/NavBar';
 import ScoreCardForm from '../ScoreCardForm/ScoreCardForm'
 import ScoreCard from '../ScoreCard/ScoreCard'
+import ScoreCardsList from '../ScoreCardsList/ScoreCardsList'
 import css from './Application.scss'
 
 export default class Application extends React.Component {
@@ -9,8 +10,6 @@ export default class Application extends React.Component {
     user: PropTypes.object.isRequired, // this is passed from the Rails view
     scoreCards: PropTypes.array.isRequired,
     scoreCard: PropTypes.object.isRequired,
-    showForm: PropTypes.bool.isRequired,
-    showCard: PropTypes.bool.isRequired,
     increment: PropTypes.number.isRequired,
     totalPar: PropTypes.number.isRequired,
     totalScore: PropTypes.number.isRequired
@@ -29,21 +28,25 @@ export default class Application extends React.Component {
       user: this.props.user,
       scoreCards: this.props.scoreCards,
       scoreCard: this.props.scoreCard,
-      showForm: this.props.showForm,
-      showCard: this.props.showCard,
       increment: this.props.increment,
       totalPar: this.props.totalPar,
-      totalScore: this.props.totalScore
+      totalScore: this.props.totalScore,
+      showCardForm: true,
+      showHoleForm: false,
+      showAllCards: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleShowScoreCards = this.handleShowScoreCards.bind(this);
+    this.handleShowCardForm = this.handleShowCardForm.bind(this);
+    this.handleShowCardHole = this.handleShowCardHole.bind(this);
   }
 
   // Function passed to ScoreCardForm child component 
   handleSubmit(e) {
     e.preventDefault();
     let scoreCards = this.state.scoreCards;
-    let showForm = this.state.showForm;
-    let showCard = this.state.showCard;
+    let showCardForm = this.state.showCardForm;
+    let showHoleForm = this.state.showHoleForm;
     $.ajax({
       headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
       type:'POST',
@@ -58,10 +61,47 @@ export default class Application extends React.Component {
     },
       // After ajax set showForm state to false 
       this.setState({
-        showForm: !showForm,
-        showCard: !showCard
+        showCardForm: !showCardForm,
+        showHoleForm: !showHoleForm
       })
     );
+  }
+
+  handleShowScoreCards(e) {
+    e.preventDefault();
+    this.setState({
+      showCardForm: false,
+      showHoleForm: false,
+      showAllCards: true
+    })
+  }
+
+  handleShowCardForm(e) {
+    e.preventDefault();
+    this.setState({
+      showCardForm: true,
+      showHoleForm: false,
+      showAllCards: false
+    })
+  }
+
+  handleShowCardHole(e, cardID) {
+    e.preventDefault();
+    console.log('handle show card hole called!')
+    console.log('card id is ', cardID);
+    let card;
+    $.get(`/score_cards/${cardID}`, (data) => {
+      console.log('selected card is ', data);
+      card = data;
+    })
+      .done(() => {
+        this.setState({
+          scoreCard: card,
+          showCardForm: false,
+          showHoleForm: true,
+          showAllCards: false
+        })
+      })
   }
 
   render() {
@@ -73,10 +113,23 @@ export default class Application extends React.Component {
           Welcome, {this.state.user.firstname}. Playing a round of golf? 
         </h1>
 
-        {this.state.showForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
+        <div className='row'>
+          <div className='col-sm-12'>
+            {this.state.showCardForm || this.state.showHoleForm ?
+              <a href='#' className={css.cardNavLinks} onClick={this.handleShowScoreCards}>My score cards</a> : null}
+            {this.state.showAllCards || this.state.showHoleForm ?
+              <a href='#' className={css.cardNavLinks} onClick={this.handleShowCardForm}>Add new score card</a> : null}
+          </div>
+        </div>
+
+        {this.state.showCardForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        {this.state.showCard ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}
+        {this.state.showHoleForm ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}
           totalPar={this.props.totalPar} totalScore={this.props.totalScore}/> : null}
+        {this.state.showAllCards ? <ScoreCardsList scoreCards={this.props.scoreCards}
+          scoreCard={this.props.scoreCard} showCardForm={this.state.showCardForm} 
+          showHoleForm={this.state.showHoleForm} showAllCards={this.state.showAllCards}
+          handleShowCardHole={this.handleShowCardHole}/> : null}
       </div>
     )
   }
