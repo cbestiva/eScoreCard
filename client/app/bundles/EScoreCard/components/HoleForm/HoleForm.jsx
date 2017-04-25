@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
-import css from './ScoreCard.scss';
+import css from './HoleForm.scss';
 
-export default class ScoreCard extends React.Component {
+export default class HoleForm extends React.Component {
 
   /**
    * @param props - Comes from your rails view.

@@ -4,7 +4,7 @@ import Splash from '../components/Splash/Splash';
 import Application from '../components/Application/Application';
 import NavBar from '../components/NavBar/NavBar';
 import ScoreCardForm from '../components/ScoreCardForm/ScoreCardForm';
-import ScoreCard from '../components/ScoreCard/ScoreCard';
+import HoleForm from '../components/HoleForm/HoleForm';
 import ScoreCardsList from '../components/ScoreCardsList/ScoreCardsList'
 
 ReactOnRails.register({
@@ -12,6 +12,6 @@ ReactOnRails.register({
   Application,
   NavBar,
   ScoreCardForm,
-  ScoreCard,
+  HoleForm,
   ScoreCardsList
 });
