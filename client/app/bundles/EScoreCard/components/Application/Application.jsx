@@ -12,7 +12,9 @@ export default class Application extends React.Component {
     scoreCard: PropTypes.object.isRequired,
     increment: PropTypes.number.isRequired,
     totalPar: PropTypes.number.isRequired,
-    totalScore: PropTypes.number.isRequired
+    totalScore: PropTypes.number.isRequired,
+    pars: PropTypes.array.isRequired,
+    scores: PropTypes.array.isRequired
   };
 
   /**
@@ -31,6 +33,8 @@ export default class Application extends React.Component {
       increment: this.props.increment,
       totalPar: this.props.totalPar,
       totalScore: this.props.totalScore,
+      pars: this.props.pars,
+      scores: this.props.scores,
       showCardForm: true,
       showHoleForm: false,
       showAllCards: false
@@ -124,8 +128,9 @@ export default class Application extends React.Component {
 
         {this.state.showCardForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        {this.state.showHoleForm ? <ScoreCard scoreCard={this.props.scoreCard} increment={this.props.increment}
-          totalPar={this.props.totalPar} totalScore={this.props.totalScore}/> : null}
+        {this.state.showHoleForm ? <ScoreCard scoreCard={this.state.scoreCard} increment={this.props.increment}
+          totalPar={this.props.totalPar} totalScore={this.props.totalScore}
+          pars={this.props.pars} scores={this.props.scores}/> : null}
         {this.state.showAllCards ? <ScoreCardsList scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} showCardForm={this.state.showCardForm} 
           showHoleForm={this.state.showHoleForm} showAllCards={this.state.showAllCards}
