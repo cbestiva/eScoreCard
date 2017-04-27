@@ -9,10 +9,19 @@ class ScoreCardsController < ApplicationController
   end
 
   def show
-    @score_card = ScoreCard.find(params[:id])
+    @score_card= current_user.score_cards.find(params[:id])
 
     respond_to do |f|
-    f.json {render json: @score_card}
+    f.json {render json: @score_card.as_json(include: :holes)}
+    end
+  end
+
+  def update
+    @score_card = ScoreCard.find(params[:id])
+    @score_card.update_attributes(score_card_params)
+
+    respond_to do |f|
+      f.json {render json: @score_card, status: 200}
     end
   end
 
@@ -22,6 +31,6 @@ class ScoreCardsController < ApplicationController
     # permit list between create and update. Also, you can specialize
     # this method with per-user checking of permissible attributes.
     def score_card_params
-      params.require(:score_card).permit(:course_name, :city, :state, :num_of_holes, :user_id)
+      params.require(:score_card).permit(:course_name, :city, :state, :num_of_holes, :pars, :scores, :total_par, :total_score, :user_id)
     end
 end

@@ -7,10 +7,12 @@ class UsersController < ApplicationController
       city: '',
       state: '',
       num_of_holes: '',
-      user_id: @user.id
+      user_id: @user.id,
+      pars: [],
+      scores: [],
+      total_par: 0,
+      total_score: 0
     }
-    @totalPar = 0;
-    @totalScore = 0;
 
     respond_to do |f|
       f.html

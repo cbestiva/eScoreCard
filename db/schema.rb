@@ -10,21 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170421222921) do
+ActiveRecord::Schema.define(version: 20170427194210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "holes", force: :cascade do |t|
+    t.integer  "number"
+    t.integer  "par"
+    t.integer  "yards"
+    t.string   "swings"
+    t.integer  "putt_count"
+    t.integer  "score"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "score_card_id"
+    t.index ["score_card_id"], name: "index_holes_on_score_card_id", using: :btree
+  end
 
   create_table "score_cards", force: :cascade do |t|
     t.string   "course_name"
     t.string   "city"
     t.string   "state"
     t.integer  "num_of_holes"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.integer  "user_id"
     t.integer  "total_par"
     t.integer  "total_score"
+    t.integer  "pars",         default: [],              array: true
+    t.integer  "scores",       default: [],              array: true
     t.index ["user_id"], name: "index_score_cards_on_user_id", using: :btree
   end
 

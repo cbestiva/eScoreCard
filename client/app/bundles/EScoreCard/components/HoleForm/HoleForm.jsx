@@ -14,29 +14,30 @@ export default class HoleForm extends React.Component {
     // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
     this.state = { 
       scoreCard: this.props.scoreCard,
+      scoreCards: this.props.scoreCards,
       increment: this.props.increment,
-      totalPar: this.props.totalPar,
-      totalScore: this.props.totalScore,
-      pars: this.props.pars,
-      scores: this.props.scores,
       hole: {
         number: '',
         par: '',
         yards: '',
         swings: [],
         score: 0,
-        puttCount: ''
+        putt_count: ''
       },
-      swingNum: 2,
-      clubSelects: [1],
+      swingNum: 1,
+      clubSelects: [],
+      holeVal: '',
+      parVal: '',
+      puttVal: ''
     }
     this.handleInput = this.handleInput.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.addClubSelect = this.addClubSelect.bind(this);
     this.removeClubSelect = this.removeClubSelect.bind(this);
     this.calculateScore = this.calculateScore.bind(this);
-    this.handleParSelect = this.handleParSelect.bind(this);
+    this.calculateTotalPar = this.calculateTotalPar.bind(this);
     this.calculateTotalScore = this.calculateTotalScore.bind(this);
+    this.handleHoleSubmit = this.handleHoleSubmit.bind(this);
   }
 
   componentDidUpdate() {
@@ -76,34 +77,45 @@ export default class HoleForm extends React.Component {
           // Recalculate Score
           this.calculateScore(hole)
         )
-      } else {
-        hole[key] = Number(e.target.value);
+      } else if (key === 'number') {
         this.setState({
-          hole: hole
-        },
-          // Recalculate Score
-          this.calculateScore(hole)
-        )
-
-        // Handle par select
-        if (key ==='par') {
-          this.handleParSelect(e)
-        }
-      }
+          holeVal: e.target.value,
+          hole: Object.assign(this.state.hole, {number: Number(e.target.value)})
+        });
+      } else if (key === 'par') {
+        this.setState({
+          parVal: e.target.value,
+          hole: Object.assign(this.state.hole, {par: Number(e.target.value)})
+        });
+        this.calculateTotalPar(e);
+      } else if (key === 'putt_count') {
+        this.setState({
+          puttVal: e.target.value,
+          hole: Object.assign(this.state.hole, {putt_count: Number(e.target.value)})
+        });
+        // Recalculate Score
+        this.calculateScore(hole)
+      } 
     }
   }
 
-  handleParSelect(e) {
-    // Track and add each hole's par value to state pars array
+  calculateTotalPar(e) {
+    // console.log('Handle Par Select!')
+    // console.log('Total par = ', this.state.scoreCard.total_par);
+    // console.log('Hole par =', this.state.hole.par);
+
+    // Track and add each hole's par value to scoreCard pars array
     let parIndex = this.state.hole.number - 1;
-    this.state.pars[parIndex] = Number(e.target.value);
-    console.log('PARS ARRAY =', this.state.pars)
+    this.state.scoreCard.pars[parIndex] = Number(e.target.value);
+    console.log('SC PARS ARRAY =', this.state.scoreCard.pars)
+    let parsArray = this.state.scoreCard.pars
 
     // Set state totalPar to the sum of state pars array
-    let totalPar = this.state.pars.reduce((a,b) => a + b, 0);
+    let totalPar = this.state.scoreCard.pars.reduce((a,b) => a + b, 0);
+
     this.setState({
-      totalPar: totalPar
-    })
+      scoreCard: Object.assign(this.state.scoreCard, {total_par: totalPar, pars: parsArray})
+    });
   }
 
   addClubSelect(e) {
@@ -125,7 +137,7 @@ export default class HoleForm extends React.Component {
     e.preventDefault();
     let hole = this.state.hole;
     let par = this.state.par;
-    let puttCount = this.state.puttCount;
+    let puttCount = this.state.putt_count;
     let swingNum = this.state.swingNum;
     // remove last element in clubSelects and swings array
     this.state.clubSelects.pop();
@@ -148,7 +160,7 @@ export default class HoleForm extends React.Component {
   calculateScore(hole) {
     let par = hole.par;
     let numOfSwings = this.state.clubSelects.length;
-    let puttCount = hole.puttCount;
+    let puttCount = hole.putt_count;
 
     let score = Number((numOfSwings - par) + puttCount);
 
@@ -182,7 +194,8 @@ export default class HoleForm extends React.Component {
   }
 
   calculateTotalScore(hole) {
-    console.log('TOTAL PAR = ', this.state.totalPar)
+    console.log('Calculate total score');
+    console.log('TOTAL PAR = ', this.state.scoreCard.total_par)
     console.log('HOLE PAR = ', hole.par)
     let holeScore = hole.score;
     let scores = this.state.scores;
@@ -198,25 +211,99 @@ export default class HoleForm extends React.Component {
     }
 
     // Track and add each hole's score value to state scores array
-    let parIndex = this.state.hole.number - 1;
-    this.state.scores[parIndex] = holeScore;
-    console.log('SCORES ARRAY =', this.state.scores)
+    let parIndex = this.state.hole.number - 1 || 0;
+    this.state.scoreCard.scores[parIndex] = holeScore;
+    console.log('SCORES ARRAY =', this.state.scoreCard.scores)
+    let scoresArray = this.state.scoreCard.scores;
 
     // Set state totalScore to the sum of state scores array
-    let totalScore = this.state.scores.reduce((a,b) => a + b, 0);
+    let totalScore = this.state.scoreCard.scores.reduce((a,b) => a + b, 0);
     console.log('TOTAL SCORE === ', totalScore)
 
     this.setState({
-      totalScore: totalScore
+      scoreCard: Object.assign(this.state.scoreCard, {total_score: totalScore, scores: scoresArray})
+    })
+  }
+
+  handleHoleSubmit(e) {
+    e.preventDefault();
+    console.log('SUBMIT HOLE FORM!')
+    let swings = this.state.hole.swings.toString();
+    let parsString = this.state.scoreCard.pars.toString();
+    let scoresString = this.state.scoreCard.scores.toString();
+    let pars = `{${parsString}}`;
+    let scores = `{${scoresString}}`;
+    let holeInfo = Object.assign(this.state.hole, {swings: swings, score_card_id: this.state.scoreCard.id});
+    let scoreCardInfo = Object.assign({}, {total_par: this.state.scoreCard.total_par, total_score: this.state.scoreCard.total_score,
+      pars: pars, scores: scores});
+    console.log(scoreCardInfo)
+    let scoreCardId;
+    if (this.state.scoreCard.id === undefined) {
+      scoreCardId = this.state.scoreCards.length
+    } else {
+      scoreCardId = this.state.scoreCard.id
+    }
+
+    console.log('SCORE CARD ID =', scoreCardId)
+    // make post request to hole create
+    $.ajax({
+      headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+      type:'POST',
+      url:`/score_cards/${scoreCardId}/holes`,
+      dataType: 'json',
+      data: {hole: holeInfo},
+      success:function(data) {
+        console.log('HOLE DATA = ' + JSON.stringify(data));
+      }
+    }).then(() => {
+      // make put request to score card update to save pars and scores
+      $.ajax({
+        headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+        type:'PUT',
+        url:`/score_cards/${scoreCardId}`,
+        dataType: 'json',
+        data: {score_card: scoreCardInfo},
+        success:function(data) {
+          console.log('SCORE CARD DATA = ' + JSON.stringify(data));
+        }
+      })
     })
 
+    this.resetHoleForm();
+  }
+
+  resetHoleForm() {
+    console.log('RESET FORM!')
+    console.log('hole number = ', this.state.hole.number)
+    let increment;
+    if (this.state.hole.number === this.state.scoreCard.num_of_holes) {
+      increment = 0;
+      // Show Full Score Card component
+    } else {
+      increment = 1;
+    }
+    // Reset select states
+    this.setState({
+      hole: {
+        number: this.state.hole.number + increment,
+        par: '',
+        yards: '',
+        swings: [],
+        putt_count: '',
+        score: 0
+      },
+      clubSelects: [],
+      holeVal: this.state.hole.number + increment,
+      parVal: '',
+      puttVal: ''
+    });
   }
 
   // Render correct select node for hole based on ScoreCard's number of holes
   renderHoleSelect() {
     if(this.state.scoreCard.num_of_holes == 9) {
       return (
-        <select id='HoleNumber' onChange={this.handleSelect('number')} required>
+        <select id='HoleNumber' value={this.state.holeVal} onChange={this.handleSelect('number')} required>
           <option value=''>Hole</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
@@ -231,7 +318,7 @@ export default class HoleForm extends React.Component {
       )
     } else {
       return (
-        <select id='HoleNumber' onChange={this.handleSelect('number')} required>
+        <select id='HoleNumber' value={this.state.holeVal} onChange={this.handleSelect('number')} required>
           <option value=''>Hole</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
@@ -261,19 +348,19 @@ export default class HoleForm extends React.Component {
       <div>
         <h1>Course: {this.state.scoreCard.course_name}</h1>
         <h2>Track your swings, puts, and score per hole</h2>
-        <form className='holeForm'>
+        <form className='holeForm' onSubmit={this.handleHoleSubmit}>
           <div className='holeInfo'>
 
             {this.renderHoleSelect()}
 
-            <select id='par' onChange={this.handleSelect('par')} required>
+            <select id='par' value={this.state.parVal} onChange={this.handleSelect('par')} required>
               <option value=''>Par</option>
               <option value='3'>3</option>
               <option value='4'>4</option>
               <option value='5'>5</option>
             </select>
             <label htmlFor='yards' className=''>Yards</label>
-            <input id='yards' onChange={this.handleInput('yards')} required />
+            <input id='yards' value={this.state.hole.yards} onChange={this.handleInput('yards')} required />
           </div>
 
           <div className='swingSelectsOutterWrap'>
@@ -282,7 +369,7 @@ export default class HoleForm extends React.Component {
                 return (
                   <div className='' key={swing}>
                     <label htmlFor='swingCount' className=''>Swing {swing}</label>
-                    <select id='swingCount' onChange={this.handleSelect('club', swing)}>
+                    <select id='swingCount' onChange={this.handleSelect('club', swing)} required>
                       <option value=''>Club</option>
                       <option value='Driver'>Driver</option>
                       <option value='3 Wood'>3 Wood</option>
@@ -309,7 +396,7 @@ export default class HoleForm extends React.Component {
 
           <div className='puttWrap'>
             <label htmlFor='puttCount'>Putt Count</label>
-            <select id='puttCount' onChange={this.handleSelect('puttCount')} required>
+            <select id='puttCount' value={this.state.puttVal} onChange={this.handleSelect('putt_count')} required>
               <option value=''>Putt count</option>
               <option value='1'>1</option>
               <option value='2'>2</option>
@@ -327,11 +414,13 @@ export default class HoleForm extends React.Component {
 
             <div className='totalScore'>
               <label htmlFor='totalPar'>Total Par</label>
-              <input id='totalPar' value={this.state.totalPar} readOnly/>
+              <input id='totalPar' value={this.state.scoreCard.total_par} readOnly/>
               <label htmlFor='totalScore'>Total Score</label>
-              <input id='totalScore' value={this.state.totalScore} readOnly/>
+              <input id='totalScore' value={this.state.scoreCard.total_score} readOnly/>
             </div>
           </div>
+
+          <input type='submit' value='Add hole' />
           
         </form>
       </div>

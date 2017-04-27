@@ -10,11 +10,7 @@ export default class Application extends React.Component {
     user: PropTypes.object.isRequired, // this is passed from the Rails view
     scoreCards: PropTypes.array.isRequired,
     scoreCard: PropTypes.object.isRequired,
-    increment: PropTypes.number.isRequired,
-    totalPar: PropTypes.number.isRequired,
-    totalScore: PropTypes.number.isRequired,
-    pars: PropTypes.array.isRequired,
-    scores: PropTypes.array.isRequired
+    increment: PropTypes.number.isRequired
   };
 
   /**
@@ -31,10 +27,6 @@ export default class Application extends React.Component {
       scoreCards: this.props.scoreCards,
       scoreCard: this.props.scoreCard,
       increment: this.props.increment,
-      totalPar: this.props.totalPar,
-      totalScore: this.props.totalScore,
-      pars: this.props.pars,
-      scores: this.props.scores,
       showCardForm: true,
       showHoleForm: false,
       showAllCards: false
@@ -130,9 +122,8 @@ export default class Application extends React.Component {
 
         {this.state.showCardForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
-        {this.state.showHoleForm ? <HoleForm scoreCard={this.state.scoreCard} increment={this.props.increment}
-          totalPar={this.props.totalPar} totalScore={this.props.totalScore}
-          pars={this.props.pars} scores={this.props.scores}/> : null}
+        {this.state.showHoleForm ? <HoleForm scoreCard={this.state.scoreCard} scoreCards={this.props.scoreCards}
+          increment={this.props.increment}/> : null}
         {this.state.showAllCards ? <ScoreCardsList scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} showCardForm={this.state.showCardForm} 
           showHoleForm={this.state.showHoleForm} showAllCards={this.state.showAllCards}
