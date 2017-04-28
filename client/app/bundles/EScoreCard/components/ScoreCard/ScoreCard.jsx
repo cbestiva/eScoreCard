@@ -20,15 +20,19 @@ export default class ScoreCard extends React.Component {
   render() {
     return (
       <div className='scoreCardWrap'>
-        <h1>{this.state.scoreCard.course_name}</h1>
-        <h2>{this.state.scoreCard.city} {this.state.scoreCard.state}, {this.state.scoreCard.num_of_holes} Holes</h2>
-        <h3>Total Par: {this.state.scoreCard.total_par} Total Score: {this.state.scoreCard.total_score}</h3>
-        <div className='holesWrap'>
+        <h1 className={`${css.headline}`}>
+          {this.state.scoreCard.course_name} <br/>
+          {this.state.scoreCard.city} {this.state.scoreCard.state}, {this.state.scoreCard.num_of_holes} Holes
+        </h1>
+        <h2 className={`${css.subheadline}`}>
+          Total Par: {this.state.scoreCard.total_par} Total Score: {this.state.scoreCard.total_score}
+        </h2>
+        <div className={`${css.holesWrap}`}>
           {
             this.state.scoreCard.holes.map((hole) => {
               return (
-                <div key={hole.number}>
-                  <h3>Hole {hole.number}</h3>
+                <div className={`${css.holeWrap} col-md-4`} key={hole.number}>
+                  <h3 className={`${css.holeNumber}`}>Hole {hole.number}</h3>
                   <p>Par {hole.par} - {hole.yards} Yards</p>
                   <p>Clubs used: {hole.swings}</p>
                   <p>Number of putts: {hole.putt_count}</p>
