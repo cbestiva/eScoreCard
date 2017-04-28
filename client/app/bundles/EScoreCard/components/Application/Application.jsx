@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import NavBar from '../NavBar/NavBar';
 import ScoreCardForm from '../ScoreCardForm/ScoreCardForm'
 import HoleForm from '../HoleForm/HoleForm'
+import ScoreCard from '../ScoreCard/ScoreCard'
 import ScoreCardsList from '../ScoreCardsList/ScoreCardsList'
 import css from './Application.scss'
 
@@ -29,12 +30,13 @@ export default class Application extends React.Component {
       increment: this.props.increment,
       showCardForm: true,
       showHoleForm: false,
+      showScoreCard: false,
       showAllCards: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleShowScoreCards = this.handleShowScoreCards.bind(this);
     this.handleShowCardForm = this.handleShowCardForm.bind(this);
-    this.handleShowCardHole = this.handleShowCardHole.bind(this);
+    this.handleShowCard = this.handleShowCard.bind(this);
   }
 
   // Function passed to ScoreCardForm child component 
@@ -81,7 +83,7 @@ export default class Application extends React.Component {
     })
   }
 
-  handleShowCardHole(e, cardID) {
+  handleShowCard(e, cardID) {
     e.preventDefault();
     console.log('handle show card hole called!')
     console.log('card id is ', cardID);
@@ -91,12 +93,12 @@ export default class Application extends React.Component {
       card = data;
     })
       .done(() => {
-        // TODO: create showScoreCard state and ScoreCard component (change current ScoreCard
-        // component to HoleForm) to display selected score card data
+        // Display selected score card data
         this.setState({
           scoreCard: card,
           showCardForm: false,
-          showHoleForm: true,
+          showScoreCard: true,
+          showHoleForm: false,
           showAllCards: false
         })
       })
@@ -122,12 +124,16 @@ export default class Application extends React.Component {
 
         {this.state.showCardForm ? <ScoreCardForm user={this.props.user} scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} handleSubmit={this.handleSubmit}/> : null}
+
         {this.state.showHoleForm ? <HoleForm scoreCard={this.state.scoreCard} scoreCards={this.props.scoreCards}
-          increment={this.props.increment}/> : null}
+          increment={this.props.increment} handleShowCard={this.handleShowCard}/> : null}
+
+        {this.state.showScoreCard ? <ScoreCard scoreCard={this.state.scoreCard}/> : null}
+
         {this.state.showAllCards ? <ScoreCardsList scoreCards={this.props.scoreCards}
           scoreCard={this.props.scoreCard} showCardForm={this.state.showCardForm} 
           showHoleForm={this.state.showHoleForm} showAllCards={this.state.showAllCards}
-          handleShowCardHole={this.handleShowCardHole}/> : null}
+          handleShowCard={this.handleShowCard}/> : null}
       </div>
     )
   }

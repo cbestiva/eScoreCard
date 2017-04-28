@@ -28,7 +28,7 @@ export default class ScoreCardsList extends React.Component {
         {this.state.scoreCards.map((card) => {
           return (
             <div key={card.id}>
-              <a href='#' onClick={(e) => this.props.handleShowCardHole(e, card.id)}>
+              <a href='#' onClick={(e) => this.props.handleShowCard(e, card.id)}>
                 {card.created_at.substring(0, 10)} {card.course_name} {card.num_of_holes} Holes - {card.city} {card.state}
               </a>
             </div>

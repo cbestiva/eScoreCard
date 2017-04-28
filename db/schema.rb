@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20170427194210) do
     t.integer  "yards"
     t.string   "swings"
     t.integer  "putt_count"
-    t.integer  "score"
+    t.string   "score"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.integer  "score_card_id"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20170427194210) do
     t.datetime "updated_at",                null: false
     t.integer  "user_id"
     t.integer  "total_par"
-    t.integer  "total_score"
+    t.string   "total_score"
     t.integer  "pars",         default: [],              array: true
     t.integer  "scores",       default: [],              array: true
     t.index ["user_id"], name: "index_score_cards_on_user_id", using: :btree

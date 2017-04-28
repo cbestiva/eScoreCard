@@ -21,7 +21,7 @@ export default class HoleForm extends React.Component {
         par: '',
         yards: '',
         swings: [],
-        score: 0,
+        score: '',
         putt_count: ''
       },
       swingNum: 1,
@@ -41,9 +41,10 @@ export default class HoleForm extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('updated par =', this.state.totalPar)
+    console.log('updated par =', this.state.scoreCard.total_par)
     console.log('updated hole = ', this.state.hole)
-    console.log('total score updated = ', this.state.totalScore);
+    console.log('total score updated = ', this.state.scoreCard.total_score)
+    console.log('hole swings =', this.state.hole.swings)
   }
 
   handleInput(key) {
@@ -100,10 +101,6 @@ export default class HoleForm extends React.Component {
   }
 
   calculateTotalPar(e) {
-    // console.log('Handle Par Select!')
-    // console.log('Total par = ', this.state.scoreCard.total_par);
-    // console.log('Hole par =', this.state.hole.par);
-
     // Track and add each hole's par value to scoreCard pars array
     let parIndex = this.state.hole.number - 1;
     this.state.scoreCard.pars[parIndex] = Number(e.target.value);
@@ -165,29 +162,41 @@ export default class HoleForm extends React.Component {
     let score = Number((numOfSwings - par) + puttCount);
 
     if (score === -3) {
-      let updatedHole = Object.assign(hole, {score: 'ALBATROSS'});
+      // let updatedHole = Object.assign(hole, {score: 'ALBATROSS'});
       this.setState({
-        hole: updatedHole
+        hole: Object.assign(hole, {score: 'ALBATROSS'})
       });
     } else if (score === -2) {
-      let updatedHole = Object.assign(hole, {score: 'EAGLE'});
+      // let updatedHole = Object.assign(hole, {score: 'EAGLE'});
       this.setState({
-        hole: updatedHole
+        hole: Object.assign(hole, {score: 'EAGLE'})
       });
     } else if (score === -1) {
-      let updatedHole = Object.assign(hole, {score: 'BIRDIE'});
+      // let updatedHole = Object.assign(hole, {score: 'BIRDIE'});
       this.setState({
-        hole: updatedHole
+        hole: Object.assign(hole, {score: 'BIRDIE'})
       });
     } else if (score === 0) {
-      let updatedHole = Object.assign(hole, {score: 'PAR'});
+      // let updatedHole = Object.assign(hole, {score: 'PAR'});
       this.setState({
-        hole: updatedHole
+        hole: Object.assign(hole, {score: 'PAR'})
+      });
+    } else if (score === 1) {
+      this.setState({
+        hole: Object.assign(hole, {score: 'BOGEY'})
+      });
+    } else if (score === 2) {
+      this.setState({
+        hole: Object.assign(hole, {score: 'DOUBLE BOGEY'})
+      });
+    } else if (score === 3) {
+      this.setState({
+        hole: Object.assign(hole, {score: 'TRIPPLE BOGEY'})
       });
     } else {
       let updatedHole = Object.assign(hole, {score: score})
       this.setState({
-        hole: updatedHole
+        hole: Object.assign(hole, {score: `+${score}`})
       });
     }
     this.calculateTotalScore(hole)
@@ -208,6 +217,14 @@ export default class HoleForm extends React.Component {
       holeScore = -1
     } else if (holeScore === 'PAR') {
       holeScore = 0
+    } else if (holeScore === 'BOGEY') {
+      holeScore = 1
+    } else if (holeScore === 'DOUBLE BOGEY') {
+      holeScore = 2
+    } else if (holeScore === 'TRIPPLE BOGEY') {
+      holeScore = 3
+    } else {
+      holeScore = Number(holeScore)
     }
 
     // Track and add each hole's score value to state scores array
@@ -220,9 +237,15 @@ export default class HoleForm extends React.Component {
     let totalScore = this.state.scoreCard.scores.reduce((a,b) => a + b, 0);
     console.log('TOTAL SCORE === ', totalScore)
 
-    this.setState({
-      scoreCard: Object.assign(this.state.scoreCard, {total_score: totalScore, scores: scoresArray})
-    })
+    if (totalScore > 0) {
+      this.setState({
+        scoreCard: Object.assign(this.state.scoreCard, {total_score: `+${totalScore}`, scores:scoresArray})
+      })
+    } else {
+      this.setState({
+        scoreCard: Object.assign(this.state.scoreCard, {total_score: totalScore, scores: scoresArray})
+      })
+    }
   }
 
   handleHoleSubmit(e) {
@@ -269,7 +292,11 @@ export default class HoleForm extends React.Component {
       })
     })
 
-    this.resetHoleForm();
+    if (this.state.hole.number === Number(this.state.scoreCard.num_of_holes)) {
+      this.props.handleShowCard(e, scoreCardId);
+    } else {
+      this.resetHoleForm();
+    }
   }
 
   resetHoleForm() {
@@ -295,7 +322,8 @@ export default class HoleForm extends React.Component {
       clubSelects: [],
       holeVal: this.state.hole.number + increment,
       parVal: '',
-      puttVal: ''
+      puttVal: '',
+      swingNum: 1
     });
   }
 

@@ -6,7 +6,7 @@ class CreateHoles < ActiveRecord::Migration[5.0]
       t.integer :yards
       t.string :swings
       t.integer :putt_count
-      t.integer :score
+      t.string :score
 
       t.timestamps
     end
