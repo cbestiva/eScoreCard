@@ -117,7 +117,7 @@ export default class HoleForm extends React.Component {
 
   addClubSelect(e) {
     e.preventDefault();
-    let swingNum = this.state.swingNum; // 2
+    let swingNum = this.state.swingNum;
     let clubSelects = this.state.clubSelects.concat(swingNum);
     // Updates state async
     this.setState((prevState, props) => {
@@ -133,13 +133,14 @@ export default class HoleForm extends React.Component {
   removeClubSelect(e) {
     e.preventDefault();
     let hole = this.state.hole;
-    let par = this.state.par;
-    let puttCount = this.state.putt_count;
     let swingNum = this.state.swingNum;
     // remove last element in clubSelects and swings array
-    this.state.clubSelects.pop();
-    let numOfSwings = this.state.clubSelects.length;
-    this.state.hole.swings.pop();
+    if (this.state.hole.swings.length === this.state.clubSelects.length) {
+      this.state.clubSelects.pop();
+      this.state.hole.swings.pop();
+    } else {
+      this.state.clubSelects.pop();
+    }
     // Updates state async
     this.setState((prevState, props) => {
       return {
