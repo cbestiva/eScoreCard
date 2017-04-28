@@ -11,7 +11,8 @@ class UsersController < ApplicationController
       pars: [],
       scores: [],
       total_par: 0,
-      total_score: 0
+      total_score: 0,
+      id: ''
     }
 
     respond_to do |f|

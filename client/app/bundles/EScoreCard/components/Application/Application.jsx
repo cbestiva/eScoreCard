@@ -42,6 +42,7 @@ export default class Application extends React.Component {
   // Function passed to ScoreCardForm child component 
   handleSubmit(e) {
     e.preventDefault();
+    let scoreCard = this.state.scoreCard;
     let scoreCards = this.state.scoreCards;
     let showCardForm = this.state.showCardForm;
     let showHoleForm = this.state.showHoleForm;
@@ -55,6 +56,7 @@ export default class Application extends React.Component {
         console.log('DATA = ' + JSON.stringify(data));
         scoreCards.push(data);
         console.log(scoreCards);
+        scoreCard = Object.assign(scoreCard, {id: data.id})
       }
     },
       // After ajax set showForm state to false 

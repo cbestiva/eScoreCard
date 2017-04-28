@@ -264,12 +264,7 @@ export default class HoleForm extends React.Component {
     let scoreCardInfo = Object.assign({}, {total_par: this.state.scoreCard.total_par, total_score: this.state.scoreCard.total_score,
       pars: pars, scores: scores});
     console.log(scoreCardInfo)
-    let scoreCardId;
-    if (this.state.scoreCard.id === undefined) {
-      scoreCardId = this.state.scoreCards.length
-    } else {
-      scoreCardId = this.state.scoreCard.id
-    }
+    let scoreCardId = this.state.scoreCard.id
 
     console.log('SCORE CARD ID =', scoreCardId)
     // make post request to hole create
@@ -380,7 +375,7 @@ export default class HoleForm extends React.Component {
       <div className='holeFormWrap'>
         <div className='row'>
           <h1 className={css.headline}>Course: {this.state.scoreCard.course_name}</h1>
-          <h2 className={css.subheadline}>Track your swings, putts, score per hole, and totals</h2>
+          <h2 className={css.subheadline}>Track your swings, putts, and scores</h2>
         </div>
 
         <div className='row'>
