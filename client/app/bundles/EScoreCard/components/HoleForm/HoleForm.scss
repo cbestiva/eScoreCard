@@ -1,0 +1,81 @@
+/*HoleForm Styles*/
+
+/*Extra small devices (portrait phones, less than 576px)*/
+/*No media query since this is the default in Bootstrap*/
+.headline {
+  font-size: 25px;
+  text-align: center;
+}
+.subheadline {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 0;
+}
+.holeForm {
+  width: 50%;
+}
+.holeFormContainer {
+  width: 421px;
+  margin: 0 auto;
+}
+.rowHole {
+  margin: 10px 0;
+}
+.selectHole {
+  margin: 0 10px;
+}
+.inputHole {
+  display: inline-block;
+  width: 150px;
+  margin: 0 10px;
+}
+input[readonly] {
+  width: 50px;
+}
+.inputYards {
+  margin-right: 0; 
+}
+.swingSelectsOutterWrap {
+  text-align: center
+}
+.swingWrap {
+  width: 10px 0;
+}
+.buttonHole {
+  margin: 10px 0;
+  width: 70%;
+}
+.scoreWrap {
+  display: inline-block;
+}
+.score[readonly] {
+  width: 115px;
+}
+.inputTotalScore {
+  margin-right: 0;
+}
+.totalsWrap {
+  text-align: right;
+}
+.buttonAddHole {
+  width: 100%;
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+}
+
+/*Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+
+}
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+
+}

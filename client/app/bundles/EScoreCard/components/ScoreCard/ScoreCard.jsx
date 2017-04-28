@@ -19,7 +19,7 @@ export default class ScoreCard extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='scoreCardWrap'>
         <h1>{this.state.scoreCard.course_name}</h1>
         <h2>{this.state.scoreCard.city} {this.state.scoreCard.state}, {this.state.scoreCard.num_of_holes} Holes</h2>
         <h3>Total Par: {this.state.scoreCard.total_par} Total Score: {this.state.scoreCard.total_score}</h3>

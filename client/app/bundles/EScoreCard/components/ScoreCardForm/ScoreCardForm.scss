@@ -1,7 +1,12 @@
 /*ScoreCardForm Styles*/
-.courseFormHeader {
-  text-align: center;
+.headline {
   font-size: 25px;
+  text-align: center;
+}
+.subheadline {
+  font-size: 20px;
+  text-align: center;
+  margin-top: 0;
 }
 .inputCourse {
   margin: 10px 0;

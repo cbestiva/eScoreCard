@@ -110,7 +110,7 @@ export default class Application extends React.Component {
         <NavBar user={this.props.user}/>
 
         <h1 className={`${css.welcomeHeadline}`}>
-          Welcome, {this.state.user.firstname}. Playing a round of golf? 
+          Welcome, {this.state.user.firstname}! 
         </h1>
 
         <div className='row'>

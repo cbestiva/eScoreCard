@@ -161,7 +161,11 @@ export default class HoleForm extends React.Component {
 
     let score = Number((numOfSwings - par) + puttCount);
 
-    if (score === -3) {
+    if (score < -3 ) {
+      this.setState({
+        hole: Object.assign(hole, {score: score})
+      });
+    } else if (score === -3) {
       // let updatedHole = Object.assign(hole, {score: 'ALBATROSS'});
       this.setState({
         hole: Object.assign(hole, {score: 'ALBATROSS'})
@@ -331,8 +335,8 @@ export default class HoleForm extends React.Component {
   renderHoleSelect() {
     if(this.state.scoreCard.num_of_holes == 9) {
       return (
-        <select id='HoleNumber' value={this.state.holeVal} onChange={this.handleSelect('number')} required>
-          <option value=''>Hole</option>
+        <select id='holeNumber' className={`${css.selectHole}`} value={this.state.holeVal} onChange={this.handleSelect('number')} required>
+          <option value=''>Select</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
           <option value='3'>3</option>
@@ -346,8 +350,8 @@ export default class HoleForm extends React.Component {
       )
     } else {
       return (
-        <select id='HoleNumber' value={this.state.holeVal} onChange={this.handleSelect('number')} required>
-          <option value=''>Hole</option>
+        <select id='holeNumber' className={`${css.selectHole}`} value={this.state.holeVal} onChange={this.handleSelect('number')} required>
+          <option value=''>Select</option>
           <option value='1'>1</option>
           <option value='2'>2</option>
           <option value='3'>3</option>
@@ -373,84 +377,89 @@ export default class HoleForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Course: {this.state.scoreCard.course_name}</h1>
-        <h2>Track your swings, puts, and score per hole</h2>
-        <form className='holeForm' onSubmit={this.handleHoleSubmit}>
-          <div className='holeInfo'>
+      <div className='holeFormWrap'>
+        <div className='row'>
+          <h1 className={css.headline}>Course: {this.state.scoreCard.course_name}</h1>
+          <h2 className={css.subheadline}>Track your swings, putts, score per hole, and totals</h2>
+        </div>
 
-            {this.renderHoleSelect()}
-
-            <select id='par' value={this.state.parVal} onChange={this.handleSelect('par')} required>
-              <option value=''>Par</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-            </select>
-            <label htmlFor='yards' className=''>Yards</label>
-            <input id='yards' value={this.state.hole.yards} onChange={this.handleInput('yards')} required />
-          </div>
-
-          <div className='swingSelectsOutterWrap'>
-            { 
-              this.state.clubSelects.map((swing)=> {
-                return (
-                  <div className='' key={swing}>
-                    <label htmlFor='swingCount' className=''>Swing {swing}</label>
-                    <select id='swingCount' onChange={this.handleSelect('club', swing)} required>
-                      <option value=''>Club</option>
-                      <option value='Driver'>Driver</option>
-                      <option value='3 Wood'>3 Wood</option>
-                      <option value='5 Wood'>5 Wood</option>
-                      <option value='7 Wood'>7 Wood</option>
-                      <option value='Hybrid'>Hybrid</option>
-                      <option value='4 Iron'>4 Iron</option>
-                      <option value='5 Iron'>5 Iron</option>
-                      <option value='6 Iron'>6 Iron</option>
-                      <option value='7 Iron'>7 Iron</option>
-                      <option value='8 Iron'>8 Iron</option>
-                      <option value='9 Iron'>9 Iron</option>
-                      <option value='PW'>PW</option>
-                      <option value='AW'>AW</option>
-                      <option value='SW'>SW</option>
-                    </select>
-                    <button className='btn' onClick={this.removeClubSelect}>Delete</button>
-                  </div>
-                )
-              })
-            }
-             <button className='btn' onClick={this.addClubSelect}>Add swing</button>
-          </div>
-
-          <div className='puttWrap'>
-            <label htmlFor='puttCount'>Putt Count</label>
-            <select id='puttCount' value={this.state.puttVal} onChange={this.handleSelect('putt_count')} required>
-              <option value=''>Putt count</option>
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-            </select>
-          </div>
-
-          <div className='scoresWrap'>
-            <div className='score'>
-              <label htmlFor='holeScore'>Score</label>
-              <input id='holeScore' className='js-holeScore' value={this.state.hole.score} readOnly/>
+        <div className='row'>
+          <form className='holeForm col-md-offset-3 col-md-6' onSubmit={this.handleHoleSubmit}>
+            <div className={`${css.holeFormContainer}`}>
+            <div className={`holeInfo ${css.rowHole}`}>
+              <label htmlFor='holeNumber'>Hole</label>
+              {this.renderHoleSelect()}
+              <label htmlFor='par'>Par</label>
+              <select id='par' className={`${css.selectHole}`} value={this.state.parVal} onChange={this.handleSelect('par')} required>
+                <option value=''>Select</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+              </select>
+              <label htmlFor='yards' className=''>Yards</label>
+              <input id='yards' className={`${css.inputHole} ${css.inputYards} form-control`} value={this.state.hole.yards} onChange={this.handleInput('yards')} required />
             </div>
 
-            <div className='totalScore'>
+            <div className={`${css.swingSelectsOutterWrap} ${css.rowHole}`}>
+              { 
+                this.state.clubSelects.map((swing)=> {
+                  return (
+                    <div className={`${css.swingWrap}`} key={swing}>
+                      <label htmlFor='swingCount' className=''>Swing {swing}</label>
+                      <select id='swingCount' style={{margin: '10px 10px'}} onChange={this.handleSelect('club', swing)} required>
+                        <option value=''>Club</option>
+                        <option value='Driver'>Driver</option>
+                        <option value='3 Wood'>3 Wood</option>
+                        <option value='5 Wood'>5 Wood</option>
+                        <option value='7 Wood'>7 Wood</option>
+                        <option value='Hybrid'>Hybrid</option>
+                        <option value='4 Iron'>4 Iron</option>
+                        <option value='5 Iron'>5 Iron</option>
+                        <option value='6 Iron'>6 Iron</option>
+                        <option value='7 Iron'>7 Iron</option>
+                        <option value='8 Iron'>8 Iron</option>
+                        <option value='9 Iron'>9 Iron</option>
+                        <option value='PW'>PW</option>
+                        <option value='AW'>AW</option>
+                        <option value='SW'>SW</option>
+                      </select>
+                      <button className='btn btn-danger' onClick={this.removeClubSelect}>Delete</button>
+                    </div>
+                  )
+                })
+              }
+               <button className={`${css.buttonHole} btn btn-info`} onClick={this.addClubSelect}>Add swing</button>
+            </div>
+
+            <div className={`puttScoreWrap ${css.rowHole}`}>
+              <label htmlFor='puttCount'>Putt Count</label>
+              <select id='puttCount' className={`${css.selectHole}`} value={this.state.puttVal} onChange={this.handleSelect('putt_count')} required>
+                <option value=''>Select</option>
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+              </select>
+
+              <div className={`${css.scoreWrap}`}>
+                <label htmlFor='holeScore'>Score</label>
+                <input id='holeScore' className={`${css.inputHole} ${css.score} form-control`} value={this.state.hole.score} readOnly/>
+              </div>
+            </div>
+
+            <div className={`${css.totalsWrap} ${css.rowHole}`}>
               <label htmlFor='totalPar'>Total Par</label>
-              <input id='totalPar' value={this.state.scoreCard.total_par} readOnly/>
+              <input id='totalPar' className={`${css.inputHole} form-control`} value={this.state.scoreCard.total_par} readOnly/>
               <label htmlFor='totalScore'>Total Score</label>
-              <input id='totalScore' value={this.state.scoreCard.total_score} readOnly/>
+              <input id='totalScore' className={`${css.inputHole} ${css.inputTotalScore} form-control`} value={this.state.scoreCard.total_score} readOnly/>
             </div>
-          </div>
 
-          <input type='submit' value='Add hole' />
-          
-        </form>
+
+            <input className={`${css.buttonHole} ${css.buttonAddHole} btn btn-primary`} type='submit' value='Add hole' />
+          </div>
+          </form>
+        </div>
       </div>
     )
   }
