@@ -255,6 +255,7 @@ export default class HoleForm extends React.Component {
 
   handleHoleSubmit(e) {
     e.preventDefault();
+    e.persist();
     console.log('SUBMIT HOLE FORM!')
     let swings = this.state.hole.swings.toString();
     let parsString = this.state.scoreCard.pars.toString();
@@ -290,13 +291,14 @@ export default class HoleForm extends React.Component {
           console.log('SCORE CARD DATA = ' + JSON.stringify(data));
         }
       })
+    }).done(() => {
+      if (this.state.hole.number === Number(this.state.scoreCard.num_of_holes)) {
+        console.log('score card info = ', scoreCardInfo)
+        this.props.handleShowCard(e, scoreCardId);
+      } else {
+        this.resetHoleForm();
+      }
     })
-
-    if (this.state.hole.number === Number(this.state.scoreCard.num_of_holes)) {
-      this.props.handleShowCard(e, scoreCardId);
-    } else {
-      this.resetHoleForm();
-    }
   }
 
   resetHoleForm() {
