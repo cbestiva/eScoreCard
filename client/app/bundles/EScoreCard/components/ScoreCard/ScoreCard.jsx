@@ -24,6 +24,7 @@ export default class ScoreCard extends React.Component {
           {this.state.scoreCard.course_name} <br/>
           {this.state.scoreCard.city} {this.state.scoreCard.state}, {this.state.scoreCard.num_of_holes} Holes
         </h1>
+        <p className={`${css.date}`}>{this.state.scoreCard.created_at.substring(0, 10)}</p>
         <h2 className={`${css.subheadline}`}>
           Total Par: {this.state.scoreCard.total_par} Total Score: {this.state.scoreCard.total_score}
         </h2>
@@ -31,7 +32,7 @@ export default class ScoreCard extends React.Component {
           {
             this.state.scoreCard.holes.map((hole) => {
               return (
-                <div className={`${css.holeWrap} col-md-4`} key={hole.number}>
+                <div className={`${css.holeWrap} col-sm-4`} key={hole.number}>
                   <h3 className={`${css.holeNumber}`}>Hole {hole.number}</h3>
                   <p>Par {hole.par} - {hole.yards} Yards</p>
                   <p>Clubs used: {hole.swings}</p>

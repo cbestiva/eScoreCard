@@ -51,7 +51,7 @@ export default class ScoreCardsList extends React.Component {
   render() {
     return (
       <div>
-        <h2>Your score cards list:</h2>
+        <h1 className={`${css.headline}`}>Your score cards list:</h1>
         {this.state.scoreCards.map((card) => {
           return (
             <div key={card.id}>
