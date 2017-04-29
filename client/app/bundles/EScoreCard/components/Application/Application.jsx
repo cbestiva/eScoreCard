@@ -78,7 +78,20 @@ export default class Application extends React.Component {
 
   handleShowCardForm(e) {
     e.preventDefault();
+    // Reset score card to new empty object
     this.setState({
+      scoreCard: Object.assign(this.state.scoreCard,
+      {
+        course_name: '',
+        city: '',
+        state: '',
+        num_of_holes: '',
+        pars: [],
+        scores: [],
+        total_par: 0,
+        total_score: 0,
+        id: ''
+      }),
       showCardForm: true,
       showHoleForm: false,
       showAllCards: false
