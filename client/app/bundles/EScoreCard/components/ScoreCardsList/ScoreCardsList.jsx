@@ -21,6 +21,33 @@ export default class ScoreCardsList extends React.Component {
     }
   }
 
+  removeScoreCard(e, cardId) {
+    e.preventDefault();
+    let scoreCards = this.state.scoreCards;
+    let updatedScoreCards;
+    console.log('card id === ', cardId);
+    $.ajax({
+      headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+      type: 'DELETE',
+      url: `/score_cards/${cardId}`,
+      dataType: 'json',
+      success: (data) => {
+        console.log('score card deleted!')
+        console.log('data = ', data)
+        // Return a new array with the score cards who's id does not match data.id
+        updatedScoreCards = scoreCards.filter((scoreCard) => {
+          return scoreCard.id !== data.id
+        })
+      }
+    })
+      .done(() => {
+        // Set state of scoreCards to updatedScoreCards
+        this.setState({
+          scoreCards: updatedScoreCards
+        })
+      })
+  }
+
   render() {
     return (
       <div>
@@ -31,6 +58,7 @@ export default class ScoreCardsList extends React.Component {
               <a href='#' onClick={(e) => this.props.handleShowCard(e, card.id)}>
                 {card.created_at.substring(0, 10)} {card.course_name} {card.num_of_holes} Holes - {card.city} {card.state}
               </a>
+              <button className={`${css.buttonDelete} btn btn-danger`} onClick={(e) => this.removeScoreCard(e, card.id)}>Delete</button>
             </div>
           )
         })}
