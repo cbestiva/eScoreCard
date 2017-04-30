@@ -25,15 +25,12 @@ export default class ScoreCardsList extends React.Component {
     e.preventDefault();
     let scoreCards = this.state.scoreCards;
     let updatedScoreCards;
-    console.log('card id === ', cardId);
     $.ajax({
       headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
       type: 'DELETE',
       url: `/score_cards/${cardId}`,
       dataType: 'json',
       success: (data) => {
-        console.log('score card deleted!')
-        console.log('data = ', data)
         // Return a new array with the score cards who's id does not match data.id
         updatedScoreCards = scoreCards.filter((scoreCard) => {
           return scoreCard.id !== data.id

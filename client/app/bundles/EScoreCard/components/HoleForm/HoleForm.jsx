@@ -26,7 +26,7 @@ export default class HoleForm extends React.Component {
       },
       swingNum: 1,
       clubSelects: [],
-      holeVal: '',
+      holeVal: 1,
       parVal: '',
       puttVal: ''
     }
@@ -45,6 +45,13 @@ export default class HoleForm extends React.Component {
     console.log('updated hole = ', this.state.hole)
     console.log('total score updated = ', this.state.scoreCard.total_score)
     console.log('hole swings =', this.state.hole.swings)
+  }
+
+  componentDidMount() {
+    // Set hole.number state to holeVal
+    this.setState({
+      hole: Object.assign(this.state.hole, {number: this.state.holeVal})
+    })
   }
 
   handleInput(key) {
@@ -78,16 +85,14 @@ export default class HoleForm extends React.Component {
           // Recalculate Score
           this.calculateScore(hole)
         )
-      } else if (key === 'number') {
-        this.setState({
-          holeVal: e.target.value,
-          hole: Object.assign(this.state.hole, {number: Number(e.target.value)})
-        });
       } else if (key === 'par') {
         this.setState({
           parVal: e.target.value,
           hole: Object.assign(this.state.hole, {par: Number(e.target.value)})
-        });
+        },
+          // Recalculate Score
+          this.calculateScore(hole)
+        );
         this.calculateTotalPar(e);
       } else if (key === 'putt_count') {
         this.setState({
@@ -102,7 +107,7 @@ export default class HoleForm extends React.Component {
 
   calculateTotalPar(e) {
     // Track and add each hole's par value to scoreCard pars array
-    let parIndex = this.state.hole.number - 1;
+    let parIndex = this.state.holeVal - 1;
     this.state.scoreCard.pars[parIndex] = Number(e.target.value);
     console.log('SC PARS ARRAY =', this.state.scoreCard.pars)
     let parsArray = this.state.scoreCard.pars
@@ -134,7 +139,7 @@ export default class HoleForm extends React.Component {
     e.preventDefault();
     let hole = this.state.hole;
     let swingNum = this.state.swingNum;
-    // remove last element in clubSelects and swings array
+    // Remove last element in clubSelects and swings array
     if (this.state.hole.swings.length === this.state.clubSelects.length) {
       this.state.clubSelects.pop();
       this.state.hole.swings.pop();
@@ -233,7 +238,7 @@ export default class HoleForm extends React.Component {
     }
 
     // Track and add each hole's score value to state scores array
-    let parIndex = this.state.hole.number - 1 || 0;
+    let parIndex = this.state.holeVal - 1;
     this.state.scoreCard.scores[parIndex] = holeScore;
     console.log('SCORES ARRAY =', this.state.scoreCard.scores)
     let scoresArray = this.state.scoreCard.scores;
@@ -260,6 +265,7 @@ export default class HoleForm extends React.Component {
     let swings = this.state.hole.swings.toString();
     let parsString = this.state.scoreCard.pars.toString();
     let scoresString = this.state.scoreCard.scores.toString();
+    // format pars and scores array to '{val, val, val}' to save to postgres db 
     let pars = `{${parsString}}`;
     let scores = `{${scoresString}}`;
     let holeInfo = Object.assign(this.state.hole, {swings: swings, score_card_id: this.state.scoreCard.id});
@@ -269,7 +275,7 @@ export default class HoleForm extends React.Component {
     let scoreCardId = this.state.scoreCard.id
 
     console.log('SCORE CARD ID =', scoreCardId)
-    // make post request to hole create
+    // make POST request to hole create
     $.ajax({
       headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
       type:'POST',
@@ -280,7 +286,7 @@ export default class HoleForm extends React.Component {
         console.log('HOLE DATA = ' + JSON.stringify(data));
       }
     }).then(() => {
-      // make put request to score card update to save pars and scores
+      // make PUT request to score card update to save pars and scores
       $.ajax({
         headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
         type:'PUT',
@@ -292,7 +298,10 @@ export default class HoleForm extends React.Component {
         }
       })
     }).done(() => {
-      if (this.state.hole.number === Number(this.state.scoreCard.num_of_holes)) {
+      console.log('ajax calls done')
+      // If holeVal is the last hole, show the scorecard
+      // otherwise call resetHoleForm func
+      if (this.state.holeVal === Number(this.state.scoreCard.num_of_holes)) {
         console.log('score card info = ', scoreCardInfo)
         this.props.handleShowCard(e, scoreCardId);
       } else {
@@ -304,17 +313,17 @@ export default class HoleForm extends React.Component {
   resetHoleForm() {
     console.log('RESET FORM!')
     console.log('hole number = ', this.state.hole.number)
+    console.log('holeVal = ', this.state.holeVal)
     let increment;
-    if (this.state.hole.number === this.state.scoreCard.num_of_holes) {
+    if (this.state.holeVal === this.state.scoreCard.num_of_holes) {
       increment = 0;
-      // Show Full Score Card component
     } else {
       increment = 1;
     }
     // Reset select states
     this.setState({
       hole: {
-        number: this.state.hole.number + increment,
+        number: this.state.holeVal + increment,
         par: '',
         yards: '',
         swings: [],
@@ -322,7 +331,7 @@ export default class HoleForm extends React.Component {
         score: 0
       },
       clubSelects: [],
-      holeVal: this.state.hole.number + increment,
+      holeVal: this.state.holeVal + increment,
       parVal: '',
       puttVal: '',
       swingNum: 1
@@ -333,42 +342,11 @@ export default class HoleForm extends React.Component {
   renderHoleSelect() {
     if(this.state.scoreCard.num_of_holes == 9) {
       return (
-        <select id='holeNumber' className={`${css.selectHole}`} value={this.state.holeVal} onChange={this.handleSelect('number')} required>
-          <option value=''>Select</option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
-          <option value='8'>8</option>
-          <option value='9'>9</option>
-        </select>
+         <input id='holeVal' className={`${css.inputHole} ${css.holeVal} form-control`} value={this.state.holeVal} readOnly/>
       )
     } else {
       return (
-        <select id='holeNumber' className={`${css.selectHole}`} value={this.state.holeVal} onChange={this.handleSelect('number')} required>
-          <option value=''>Select</option>
-          <option value='1'>1</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-          <option value='7'>7</option>
-          <option value='8'>8</option>
-          <option value='9'>9</option>
-          <option value='10'>10</option>
-          <option value='11'>11</option>
-          <option value='12'>12</option>
-          <option value='13'>13</option>
-          <option value='14'>14</option>
-          <option value='15'>15</option>
-          <option value='16'>16</option>
-          <option value='17'>17</option>
-          <option value='18'>18</option>
-        </select>
+        <input id='holeVal' className={`${css.inputHole} ${css.holeVal} form-control`} value={this.state.holeVal} readOnly/>
       )
     }
   }

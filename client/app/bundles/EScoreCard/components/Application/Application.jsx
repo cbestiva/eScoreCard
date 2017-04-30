@@ -52,7 +52,7 @@ export default class Application extends React.Component {
       dataType: 'json',
       data: {score_card: this.state.scoreCard},
       success:function(data) {
-        console.log('DATA = ' + JSON.stringify(data));
+        // console.log('DATA = ' + JSON.stringify(data));
         scoreCards.push(data);
         // Sort scoreCards array by id
         scoreCards.sort((a, b) => {
@@ -60,7 +60,6 @@ export default class Application extends React.Component {
         });
         // and sort array in decending order
         scoreCards.reverse();
-        console.log('ORDERED SCORE CARDS = ', scoreCards);
         scoreCard = Object.assign(scoreCard, {id: data.id})
       }
     },
@@ -84,11 +83,8 @@ export default class Application extends React.Component {
 
   handleShowCard(e, cardID) {
     e.preventDefault();
-    console.log('handle show card hole called!')
-    console.log('card id is ', cardID);
     let card;
     $.get(`/score_cards/${cardID}`, (data) => {
-      console.log('selected card is ', data);
       card = data;
     })
       .done(() => {

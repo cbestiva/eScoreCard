@@ -45,6 +45,11 @@ input[readonly] {
   margin: 10px 0;
   width: 70%;
 }
+.holeVal[readonly] {
+  background-color: white;
+  border: none;
+  box-shadow: none;
+}
 .scoreWrap {
   display: inline-block;
 }
