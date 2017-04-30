@@ -35,7 +35,6 @@ export default class Application extends React.Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleShowScoreCards = this.handleShowScoreCards.bind(this);
-    this.handleShowCardForm = this.handleShowCardForm.bind(this);
     this.handleShowCard = this.handleShowCard.bind(this);
   }
 
@@ -59,8 +58,9 @@ export default class Application extends React.Component {
         scoreCard = Object.assign(scoreCard, {id: data.id})
       }
     },
-      // After ajax set showForm state to false 
+      // After ajax set scoreCard state and showForm state to false 
       this.setState({
+        scoreCard: scoreCard,
         showCardForm: !showCardForm,
         showHoleForm: !showHoleForm
       })
@@ -73,28 +73,6 @@ export default class Application extends React.Component {
       showCardForm: false,
       showHoleForm: false,
       showAllCards: true
-    })
-  }
-
-  handleShowCardForm(e) {
-    e.preventDefault();
-    // Reset score card to new empty object
-    this.setState({
-      scoreCard: Object.assign(this.state.scoreCard,
-      {
-        course_name: '',
-        city: '',
-        state: '',
-        num_of_holes: '',
-        pars: [],
-        scores: [],
-        total_par: 0,
-        total_score: 0,
-        id: ''
-      }),
-      showCardForm: true,
-      showHoleForm: false,
-      showAllCards: false
     })
   }
 
@@ -133,7 +111,7 @@ export default class Application extends React.Component {
             {this.state.showCardForm || this.state.showHoleForm ?
               <a href='#' className={css.cardNavLinks} onClick={this.handleShowScoreCards}>My score cards</a> : null}
             {this.state.showAllCards || this.state.showHoleForm ?
-              <a href='#' className={css.cardNavLinks} onClick={this.handleShowCardForm}>Add new score card</a> : null}
+              <a href={`/users/show/${this.state.user.id}`} className={css.cardNavLinks}>Add new score card</a> : null}
           </div>
         </div>
 
