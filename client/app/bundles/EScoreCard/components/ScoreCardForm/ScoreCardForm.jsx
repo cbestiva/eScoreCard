@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Emoji from 'node-emoji';
 import css from './ScoreCardForm.scss'
 
 export default class ScoreCardForm extends React.Component {
@@ -36,7 +37,7 @@ export default class ScoreCardForm extends React.Component {
     return (
       <div className='scoreCardFormWrap'>
         <div className='row'>
-          <h1 className={`${css.headline}`}>Playing a new round of golf?</h1>
+          <h1 className={`${css.headline}`}>Playing a new round of golf? {Emoji.get('golf')}</h1>
         </div>
 
         <div className='row'>

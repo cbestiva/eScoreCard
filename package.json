@@ -26,6 +26,7 @@
   "dependencies": {
     "bootstrap-sass-loader": "^1.0.10",
     "extract-text-webpack-plugin": "^2.1.0",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "node-emoji": "^1.5.1"
   }
 }
