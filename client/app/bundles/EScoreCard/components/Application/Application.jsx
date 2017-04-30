@@ -54,7 +54,13 @@ export default class Application extends React.Component {
       success:function(data) {
         console.log('DATA = ' + JSON.stringify(data));
         scoreCards.push(data);
-        console.log(scoreCards);
+        // Sort scoreCards array by id
+        scoreCards.sort((a, b) => {
+          return a.id - b.id
+        });
+        // and sort array in decending order
+        scoreCards.reverse();
+        console.log('ORDERED SCORE CARDS = ', scoreCards);
         scoreCard = Object.assign(scoreCard, {id: data.id})
       }
     },
@@ -110,7 +116,7 @@ export default class Application extends React.Component {
           <div className='col-sm-12'>
             {this.state.showCardForm || this.state.showHoleForm ?
               <a href='#' className={css.cardNavLinks} onClick={this.handleShowScoreCards}>My score cards</a> : null}
-            {this.state.showAllCards || this.state.showHoleForm ?
+            {this.state.showAllCards || this.state.showHoleForm || this.state.showScoreCard ?
               <a href={`/users/show/${this.state.user.id}`} className={css.cardNavLinks}>Add new score card</a> : null}
           </div>
         </div>
