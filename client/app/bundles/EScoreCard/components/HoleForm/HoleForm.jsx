@@ -40,13 +40,6 @@ export default class HoleForm extends React.Component {
     this.handleHoleSubmit = this.handleHoleSubmit.bind(this);
   }
 
-  componentDidUpdate() {
-    console.log('updated par =', this.state.scoreCard.total_par)
-    console.log('updated hole = ', this.state.hole)
-    console.log('total score updated = ', this.state.scoreCard.total_score)
-    console.log('hole swings =', this.state.hole.swings)
-  }
-
   componentDidMount() {
     // Set hole.number state to holeVal
     this.setState({
@@ -67,7 +60,6 @@ export default class HoleForm extends React.Component {
   handleSelect(key, swing = 0) {
     return (e) => {
       let hole = this.state.hole;
-      // let numOfSwings = this.state.clubSelects.length;
 
       if (key === 'club') {
         let club = e.target.value;
@@ -109,7 +101,6 @@ export default class HoleForm extends React.Component {
     // Track and add each hole's par value to scoreCard pars array
     let parIndex = this.state.holeVal - 1;
     this.state.scoreCard.pars[parIndex] = Number(e.target.value);
-    console.log('SC PARS ARRAY =', this.state.scoreCard.pars)
     let parsArray = this.state.scoreCard.pars
 
     // Set state totalPar to the sum of state pars array
@@ -213,9 +204,6 @@ export default class HoleForm extends React.Component {
   }
 
   calculateTotalScore(hole) {
-    console.log('Calculate total score');
-    console.log('TOTAL PAR = ', this.state.scoreCard.total_par)
-    console.log('HOLE PAR = ', hole.par)
     let holeScore = hole.score;
     let scores = this.state.scores;
 
@@ -240,12 +228,10 @@ export default class HoleForm extends React.Component {
     // Track and add each hole's score value to state scores array
     let parIndex = this.state.holeVal - 1;
     this.state.scoreCard.scores[parIndex] = holeScore;
-    console.log('SCORES ARRAY =', this.state.scoreCard.scores)
     let scoresArray = this.state.scoreCard.scores;
 
     // Set state totalScore to the sum of state scores array
     let totalScore = this.state.scoreCard.scores.reduce((a,b) => a + b, 0);
-    console.log('TOTAL SCORE === ', totalScore)
 
     if (totalScore > 0) {
       this.setState({
@@ -261,7 +247,7 @@ export default class HoleForm extends React.Component {
   handleHoleSubmit(e) {
     e.preventDefault();
     e.persist();
-    console.log('SUBMIT HOLE FORM!')
+
     let swings = this.state.hole.swings.toString();
     let parsString = this.state.scoreCard.pars.toString();
     let scoresString = this.state.scoreCard.scores.toString();
@@ -271,10 +257,8 @@ export default class HoleForm extends React.Component {
     let holeInfo = Object.assign(this.state.hole, {swings: swings, score_card_id: this.state.scoreCard.id});
     let scoreCardInfo = Object.assign({}, {total_par: this.state.scoreCard.total_par, total_score: this.state.scoreCard.total_score,
       pars: pars, scores: scores});
-    console.log(scoreCardInfo)
     let scoreCardId = this.state.scoreCard.id
 
-    console.log('SCORE CARD ID =', scoreCardId)
     // make POST request to hole create
     $.ajax({
       headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
@@ -283,7 +267,7 @@ export default class HoleForm extends React.Component {
       dataType: 'json',
       data: {hole: holeInfo},
       success:function(data) {
-        console.log('HOLE DATA = ' + JSON.stringify(data));
+        // console.log('HOLE DATA = ' + JSON.stringify(data));
       }
     }).then(() => {
       // make PUT request to score card update to save pars and scores
@@ -294,32 +278,29 @@ export default class HoleForm extends React.Component {
         dataType: 'json',
         data: {score_card: scoreCardInfo},
         success:function(data) {
-          console.log('SCORE CARD DATA = ' + JSON.stringify(data));
+          // console.log('SCORE CARD DATA = ' + JSON.stringify(data));
+        }
+      }).done(() => {
+        // If hole.number is the last hole, show the scorecard
+        // otherwise call resetHoleForm func
+        if (this.state.hole.number === Number(this.state.scoreCard.num_of_holes)) {
+          this.props.handleShowCard(e, scoreCardId);
+        } else {
+          this.resetHoleForm();
         }
       })
-    }).done(() => {
-      console.log('ajax calls done')
-      // If holeVal is the last hole, show the scorecard
-      // otherwise call resetHoleForm func
-      if (this.state.holeVal === Number(this.state.scoreCard.num_of_holes)) {
-        console.log('score card info = ', scoreCardInfo)
-        this.props.handleShowCard(e, scoreCardId);
-      } else {
-        this.resetHoleForm();
-      }
     })
   }
 
   resetHoleForm() {
-    console.log('RESET FORM!')
-    console.log('hole number = ', this.state.hole.number)
-    console.log('holeVal = ', this.state.holeVal)
     let increment;
+
     if (this.state.holeVal === this.state.scoreCard.num_of_holes) {
       increment = 0;
     } else {
       increment = 1;
     }
+
     // Reset select states
     this.setState({
       hole: {
@@ -411,6 +392,7 @@ export default class HoleForm extends React.Component {
               <label htmlFor='puttCount'>Putt Count</label>
               <select id='puttCount' className={`${css.selectHole}`} value={this.state.puttVal} onChange={this.handleSelect('putt_count')} required>
                 <option value=''>Select</option>
+                <option value='0'>0</option>
                 <option value='1'>1</option>
                 <option value='2'>2</option>
                 <option value='3'>3</option>

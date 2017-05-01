@@ -26,7 +26,7 @@ export default class ScoreCard extends React.Component {
         </h1>
         <p className={`${css.date}`}>{this.state.scoreCard.created_at.substring(0, 10)}</p>
         <h2 className={`${css.subheadline}`}>
-          Total Par: {this.state.scoreCard.total_par} Total Score: {this.state.scoreCard.total_score}
+          Total Par: {this.state.scoreCard.total_par} <br/> Total Score: {this.state.scoreCard.total_score}
         </h2>
         <div className={`${css.holesWrap}`}>
           {

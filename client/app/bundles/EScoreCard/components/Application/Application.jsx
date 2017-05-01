@@ -84,13 +84,18 @@ export default class Application extends React.Component {
   handleShowCard(e, cardID) {
     e.preventDefault();
     let card;
+    let holes;
     $.get(`/score_cards/${cardID}`, (data) => {
       card = data;
+      // Order holes by number in acending order
+      holes = data.holes.sort((a,b) => {
+        return a.number - b.number
+      });
     })
       .done(() => {
         // Display selected score card data
         this.setState({
-          scoreCard: card,
+          scoreCard: Object.assign(card, {holes: holes}),
           showCardForm: false,
           showScoreCard: true,
           showHoleForm: false,
