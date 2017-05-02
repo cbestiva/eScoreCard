@@ -1,24 +1,25 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A MVP react_on_rails single page app used to calculate and save your golf score cards to help track and improve your golf game.
 
-Things you may want to cover:
+## Technologies used:
+* React_On_Rails 6
+* Postgres 9.6.2
+* Node 7.8.0
+* Webpack
+* Devise
+* ES6
+* Javascript
+* JQuery
+* Bootstrap
+* SCSS
+* Karma
+* Mocha
+* Chai
+* Emoji
 
-* Ruby version
+## To run local development
+foreman start -f Procfile.dev
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## To run the test suite (WIP)
+npm test
