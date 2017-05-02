@@ -7,8 +7,9 @@
     "npm": "4.1.1"
   },
   "scripts": {
-    "postinstall": "cd client && yarn install",
+    "postinstall": "cd client && npm install",
     "rails-server": "echo 'visit http://localhost:3000/hello_world' && foreman start -f Procfile.dev",
+    "build:server": "webpack --config webpack.server.rails.build.config.js",
     "test": "karma start"
   },
   "devDependencies": {
@@ -42,9 +43,14 @@
     "url-loader": "^0.5.8"
   },
   "dependencies": {
+    "bootstrap-loader": "^2.0.0",
     "bootstrap-sass-loader": "^1.0.10",
+    "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "jquery": "^3.2.1",
-    "node-emoji": "^1.5.1"
+    "node-emoji": "^1.5.1",
+    "sass-resources-loader": "^1.2.1",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.4.1"
   }
 }
