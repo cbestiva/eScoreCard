@@ -25,3 +25,7 @@ node_modules
 
 # Generated js bundles
 /app/assets/webpack/*
+
+# Ignore test-related files
+/coverage.data
+/coverage/

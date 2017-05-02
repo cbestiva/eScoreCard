@@ -116,7 +116,7 @@ export default class Application extends React.Component {
         <div className='row'>
           <div className='col-sm-12'>
             {this.state.showCardForm || this.state.showHoleForm ?
-              <a href='#' className={css.cardNavLinks} onClick={this.handleShowScoreCards}>My score cards</a> : null}
+              <a href='#' className={`${css.cardNavLinks} js-scoreCardsLink`} onClick={this.handleShowScoreCards}>My score cards</a> : null}
             {this.state.showAllCards || this.state.showHoleForm || this.state.showScoreCard ?
               <a href={`/users/show/${this.state.user.id}`} className={css.cardNavLinks}>Add new score card</a> : null}
           </div>
