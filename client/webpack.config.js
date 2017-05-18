@@ -71,7 +71,6 @@ const config = {
         use: [
           'style-loader',
           'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]__[hash:base64:5]',
-          'css-loader'
         ],
       },
       {
